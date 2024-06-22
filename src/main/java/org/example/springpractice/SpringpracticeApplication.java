@@ -22,19 +22,21 @@ public class SpringpracticeApplication {
     public static void main(String[] args) {
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory(); //Tomcat이 아닌 Container 사용 가능
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
+            HelloController helloController = new HelloController();
+
             servletContext.addServlet("frontcontroller", new HttpServlet() {
                 @Override
                 protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
                     //인증, 보안, 다국어, 공통 기능 처리
                     if(req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())) { //hello 요청 처리 && GET 방식
                         //======================요청 start======================
-                        String name = req.getParameter("name");
+                        String name = req.getParameter("name"); //queryString에서 추출
                         //=======================요청 end=======================
-
+                        String ret = helloController.hello(name); //hello+name 문자열 생성
                         //======================응답 start======================
                         resp.setStatus(HttpStatus.OK.value());
                         resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-                        resp.getWriter().println("Hello " + name);
+                        resp.getWriter().println(ret);
                         //=======================응답 end=======================
                     }
                     else if(req.getRequestURI().equals("/user")) {
