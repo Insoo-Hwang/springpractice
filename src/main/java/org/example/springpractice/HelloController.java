@@ -1,5 +1,6 @@
 package org.example.springpractice;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Controller //Spring boot 3.0부터 @Controller 명시
 @RequestMapping("/hello") //Dispatcher Servlet에 class 레벨 정보 전달(method 레벨까지 파악하기엔 Bean 정보가 너무 많음)
+@MyComponent
 public class HelloController {
     private final HelloService helloService;
 
